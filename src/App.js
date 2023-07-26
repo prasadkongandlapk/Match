@@ -337,7 +337,7 @@ class MatchGame extends Component {
   tick = () => {
     this.setState(prevState => ({time: prevState.time - 1}))
   }
-  setInterval(this.tick)
+  setInterval(this.tick,1000)
     
 
 
