@@ -259,23 +259,35 @@ const Result = props => {
   return (
     <div className="result-bg">
       <div className="bbb">
-        <img
-          className="trophy-img"
-          src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png "
-          alt="trophy"
-        />
-        <p>Your Score</p>
-        <p>{score}</p>
-        <div>
-          <button onClick={onResetBtn} className="button-reset">
+        <ul>
+          <li>
             <img
-              className="reset-img"
-              src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
-              alt="reset"
+              className="trophy-img"
+              src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png "
+              alt="trophy"
             />
-            Play Again
-          </button>
-        </div>
+          </li>
+          <li>
+            <p>YOUR SCORE</p>
+            <p>{score}</p>
+          </li>
+          <li>
+            <div>
+              <button
+                onClick={onResetBtn}
+                type="button"
+                className="button-reset"
+              >
+                <img
+                  className="reset-img"
+                  src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+                  alt="reset"
+                />
+                PLAY AGAIN
+              </button>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   )
@@ -283,7 +295,7 @@ const Result = props => {
 
 const ImageItem = props => {
   const {imgDetails, onClickImg} = props
-  const {id, imageUrl, category, thumbnailUrl} = imgDetails
+  const {id, thumbnailUrl} = imgDetails
 
   const onClickImgBtn = () => {
     onClickImg(id)
@@ -291,8 +303,8 @@ const ImageItem = props => {
 
   return (
     <li>
-      <button className="btn" onClick={onClickImgBtn}>
-        <img className="click-img" src={thumbnailUrl} alt={category} />
+      <button className="btn" type="button" onClick={onClickImgBtn}>
+        <img className="click-img" src={thumbnailUrl} alt="thumbnail" />
       </button>
     </li>
   )
@@ -314,7 +326,7 @@ const TabItem = props => {
 
   return (
     <li className="tab-list">
-      <button className="tab-item" onClick={onClickTabBtn}>
+      <button type="button" className="tab-item" onClick={onClickTabBtn}>
         {tab}
       </button>
     </li>
@@ -326,27 +338,29 @@ class MatchGame extends Component {
     ids: imagesList[0].id,
     activeImg: imagesList[0].thumbnailUrl,
     activeTabId: tabsList[0].tabId,
-    time: 0,
+    time: 60,
     score: 0,
   }
 
-  onClickTab = tabId => {
-    this.setState({activeTabId: tabId})
+  componentDidMount() {
+    this.intervalId = setInterval(this.tick, 1000)
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId)
   }
 
   tick = () => {
     this.setState(prevState => ({time: prevState.time - 1}))
   }
-  setInterval(this.tick,1000)
-    
-
 
   onClickImg = id => {
     const {ids} = this.state
     if (ids === id) {
       this.setState(prevState => ({score: prevState.score + 1}))
+    } else {
+      this.setState({time: 0})
     }
-
     const randomIndex = Math.round(Math.random() * imagesList.length)
     this.setState({
       ids: imagesList[randomIndex].id,
@@ -364,6 +378,10 @@ class MatchGame extends Component {
 
   onReset = () => {
     this.setState({score: 0, time: 60})
+  }
+
+  onClickTab = tabId => {
+    this.setState({activeTabId: tabId})
   }
 
   render() {
@@ -388,7 +406,7 @@ class MatchGame extends Component {
               alt="timer"
             />
             <p>
-              <span>{time}</span> sec
+              <span>{time}</span> Sec
             </p>
           </div>
         </div>
@@ -397,7 +415,7 @@ class MatchGame extends Component {
         ) : (
           <div>
             <div className="display-img-bg">
-              <img className="display-img" src={activeImg} />
+              <img className="display-img" src={activeImg} alt="match" />
             </div>
             <ul className="list">
               {tabsList.map(eachTab => (
