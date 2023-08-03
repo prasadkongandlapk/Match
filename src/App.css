@@ -74,6 +74,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   list-style: none;
   color: white;
   font-weight: bold;
@@ -82,6 +83,7 @@ body {
 .tab-list {
   list-style: none;
 }
+
 .tab-item {
   margin-right: 50px;
   background-color: transparent;
@@ -94,13 +96,17 @@ body {
   color: #fec653;
   text-decoration: underline;
 }
-span {
+.span {
   color: #fec653;
+  margin-right: 3px;
 }
 .result-bg {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.jadfskl {
+  margin-right: 30px;
 }
 .bbb {
   background-color: #2c0e3a;
@@ -111,14 +117,17 @@ span {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: end;
+
   padding: 20px;
 }
-
+li {
+  list-style: none;
+}
 .trophy-img {
-  height: 200px;
+  height: 150px;
   width: 200px;
+  text-align: center;
+  margin-right: 30px;
 }
 
 .button-reset {
@@ -129,6 +138,7 @@ span {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 .reset-img {

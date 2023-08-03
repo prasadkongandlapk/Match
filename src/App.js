@@ -259,35 +259,25 @@ const Result = props => {
   return (
     <div className="result-bg">
       <div className="bbb">
-        <ul>
-          <li>
-            <img
-              className="trophy-img"
-              src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png "
-              alt="trophy"
-            />
-          </li>
-          <li>
-            <p>YOUR SCORE</p>
-            <p>{score}</p>
-          </li>
-          <li>
-            <div>
-              <button
-                onClick={onResetBtn}
-                type="button"
-                className="button-reset"
-              >
-                <img
-                  className="reset-img"
-                  src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
-                  alt="reset"
-                />
-                PLAY AGAIN
-              </button>
-            </div>
-          </li>
-        </ul>
+        <div>
+          <img
+            className="trophy-img"
+            src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png "
+            alt="trophy"
+          />
+          <p>YOUR SCORE</p>
+          <p>{score}</p>
+          <div>
+            <button onClick={onResetBtn} type="button" className="button-reset">
+              <img
+                className="reset-img"
+                src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+                alt="reset"
+              />
+              PLAY AGAIN
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -321,7 +311,7 @@ const TabItem = props => {
   const tab = isActive ? (
     <p className="active-tab">{displayText}</p>
   ) : (
-    <p>{displayText}</p>
+    <p className="lis">{displayText}</p>
   )
 
   return (
@@ -351,20 +341,24 @@ class MatchGame extends Component {
   }
 
   tick = () => {
-    this.setState(prevState => ({time: prevState.time - 1}))
+    const {time} = this.state
+    if (time === 0) {
+      clearInterval(this.intervalId)
+    } else {
+      this.setState(prevState => ({time: prevState.time - 1}))
+    }
   }
 
   onClickImg = id => {
     const {ids} = this.state
     if (ids === id) {
       this.setState(prevState => ({score: prevState.score + 1}))
-    } else {
-      this.setState({time: 0})
     }
+
     const randomIndex = Math.round(Math.random() * imagesList.length)
     this.setState({
       ids: imagesList[randomIndex].id,
-      activeImg: imagesList[randomIndex].thumbnailUrl,
+      activeImg: imagesList[randomIndex].imageUrl,
     })
   }
 
@@ -378,6 +372,7 @@ class MatchGame extends Component {
 
   onReset = () => {
     this.setState({score: 0, time: 60})
+    this.intervalId = setInterval(this.tick, 1000)
   }
 
   onClickTab = tabId => {
@@ -390,26 +385,24 @@ class MatchGame extends Component {
 
     return (
       <div className="bg">
-        <div className="navbar">
+        <ul className="navbar">
           <img
             className="logo"
             src="https://assets.ccbp.in/frontend/react-js/match-game-website-logo.png "
             alt="website logo"
           />
           <div className="score-time-bg">
-            <p className="score">
-              Score: <span>{score}</span>
-            </p>
+            <p className="score">Score:</p>
+            <p className="span">{score}</p>
             <img
               className="timer"
               src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
               alt="timer"
             />
-            <p>
-              <span>{time}</span> Sec
-            </p>
+            <p className="span">{time} </p>
+            <p> sec</p>
           </div>
-        </div>
+        </ul>
         {time === 0 ? (
           <Result score={score} onReset={this.onReset} />
         ) : (
