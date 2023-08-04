@@ -2,7 +2,6 @@ import './App.css'
 
 import {Component} from 'react'
 
-// These are the lists used in the application. You can move them to any component needed.
 const tabsList = [
   {tabId: 'FRUIT', displayText: 'Fruits'},
   {tabId: 'ANIMAL', displayText: 'Animals'},
@@ -266,8 +265,8 @@ const Result = props => {
             alt="trophy"
           />
           <p>YOUR SCORE</p>
-          <p>{score}</p>
-          <div>
+          <p className="fldskj">{score}</p>
+          <div className="kdksjlf">
             <button onClick={onResetBtn} type="button" className="button-reset">
               <img
                 className="reset-img"
@@ -351,15 +350,17 @@ class MatchGame extends Component {
 
   onClickImg = id => {
     const {ids} = this.state
-    if (ids === id) {
-      this.setState(prevState => ({score: prevState.score + 1}))
-    }
 
     const randomIndex = Math.round(Math.random() * imagesList.length)
     this.setState({
       ids: imagesList[randomIndex].id,
       activeImg: imagesList[randomIndex].imageUrl,
     })
+    if (ids === id) {
+      this.setState(prevState => ({score: prevState.score + 1}))
+    } else {
+      this.setState({time: 0, score: 0})
+    }
   }
 
   getFilteredImages = () => {
@@ -386,22 +387,26 @@ class MatchGame extends Component {
     return (
       <div className="bg">
         <ul className="navbar">
-          <img
-            className="logo"
-            src="https://assets.ccbp.in/frontend/react-js/match-game-website-logo.png "
-            alt="website logo"
-          />
-          <div className="score-time-bg">
-            <p className="score">Score:</p>
-            <p className="span">{score}</p>
+          <li>
             <img
-              className="timer"
-              src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
-              alt="timer"
+              className="logo"
+              src="https://assets.ccbp.in/frontend/react-js/match-game-website-logo.png "
+              alt="website logo"
             />
-            <p className="span">{time} </p>
-            <p> sec</p>
-          </div>
+          </li>
+          <li className="dfskjlkjl">
+            <div className="score-time-bg">
+              <p className="score">Score: {score}</p>
+            </div>
+            <div className="dfskjlladsk">
+              <img
+                className="timer"
+                src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
+                alt="timer"
+              />
+              <p className="score">{time} sec</p>
+            </div>
+          </li>
         </ul>
         {time === 0 ? (
           <Result score={score} onReset={this.onReset} />
